@@ -1,0 +1,236 @@
+.about-back {
+  width: 100%;
+  height: 755px;
+}
+.about-content {
+  width: 1400px;
+  height: 100%;
+  margin: 0 auto;
+}
+.about-middle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.about-left {
+  width: 680px;
+  height: 600px;
+  margin-top: 40px;
+}
+.about-right {
+  width: 650px;
+  height: 600px;
+  margin-top: 40px;
+  background-color: #f2f2f2;
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+}
+.about-left-tittle {
+  height: 400px;
+  letter-spacing: -1px;
+  background-color: #f2f2f2;
+  padding: 30px 70px;
+  border-radius: 30px;
+  position: relative;
+}
+@keyframes about-text {
+  100% {
+    opacity: 1;
+  }
+}
+pre {
+  margin-top: 0;
+  margin-bottom: 1em;
+  overflow: auto;
+}
+.about-tittle {
+  font-size: 35px;
+  color: #000;
+  opacity: 0;
+  animation: about-text 1s linear forwards;
+}
+.about-left-content {
+  font-size: 20px;
+  line-height: 40px;
+  margin-top: 20px;
+  color: #000;
+  font-family: "STKaiti";
+  opacity: 0;
+  animation: about-text 1.8s linear forwards;
+}
+.about-left-down {
+  width: 100%;
+  height: 200px;
+  position: relative;
+}
+.about-us-photo {
+  width: 500px;
+  height: 231px;
+  position: absolute;
+  bottom: 0;
+  left: 90px;
+}
+.about-us {
+  height: 40px;
+  padding: 3px 6px;
+  font-size: 20px;
+  line-height: 34px;
+  text-align: center;
+  background-color: #f2f2f2;
+  color: #000;
+  border-radius: 10px;
+  display: inline-block;
+  position: absolute;
+  left: 270px;
+  bottom: 20px;
+  cursor: default;
+}
+@keyframes us-move {
+  0% {
+    transform: translateY(-3px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes bm {
+  0% {
+    left: 270px;
+    bottom: 20px;
+  }
+  100% {
+    left: 250px;
+    bottom: 20px;
+  }
+}
+@keyframes cx {
+  0% {
+    left: 270px;
+    bottom: 20px;
+  }
+  100% {
+    left: 62px;
+    bottom: 111px;
+  }
+}
+@keyframes hk {
+  0% {
+    left: 235px;
+    bottom: 20px;
+  }
+  100% {
+    left: 5px;
+    bottom: 23px;
+  }
+}
+@keyframes nq {
+  0% {
+    left: 270px;
+    bottom: 20px;
+  }
+  100% {
+    left: 227px;
+    bottom: 102px;
+  }
+}
+@keyframes zh {
+  0% {
+    left: 270px;
+    bottom: 20px;
+  }
+  100% {
+    left: 391px;
+    bottom: 120px;
+  }
+}
+@keyframes rc {
+  0% {
+    left: 270px;
+    bottom: 20px;
+  }
+  100% {
+    left: 435px;
+    bottom: 50px;
+  }
+}
+@keyframes fx {
+  0% {
+    left: 270px;
+    bottom: 20px;
+  }
+  100% {
+    left: 547px;
+    bottom: 104px;
+  }
+}
+@keyframes js {
+  0% {
+    left: 300px;
+    bottom: 20px;
+  }
+  100% {
+    left: 585px;
+    bottom: 20px;
+  }
+}
+.bm {
+  animation: us-move 1.51s linear infinite, bm 0.85s linear forwards;
+}
+.cx {
+  animation: us-move 1.84s linear infinite, cx 0.85s linear forwards;
+}
+.hk {
+  animation: us-move 1.38s linear infinite, hk 0.85s linear forwards;
+}
+.nq {
+  animation: us-move 1.54s linear infinite, nq 0.85s linear forwards;
+}
+.zh {
+  animation: us-move 1.61s linear infinite, zh 0.85s linear forwards;
+}
+.rc {
+  animation: us-move 1.214s linear infinite, rc 0.85s linear forwards;
+}
+.fx {
+  animation: us-move 1.71s linear infinite, fx 0.85s linear forwards;
+}
+.js {
+  animation: us-move 1.41s linear infinite, js 0.85s linear forwards;
+}
+.about-right-content {
+  font-size: 21px;
+  letter-spacing: 1px;
+  line-height: 40px;
+  margin-top: 50px;
+  margin-bottom: 0;
+  margin-left: 40px;
+  color: #000;
+  font-family: "STKaiti";
+  opacity: 0;
+  animation: about-text 1.8s linear forwards;
+}
+@keyframes members {
+  100% {
+    right: -15px;
+    bottom: -15px;
+  }
+}
+.about-right-photo {
+  position: absolute;
+  right: -400px;
+  bottom: -400px;
+  border: 30px solid #535353;
+  border-radius: 40px;
+  background-color: #535353;
+  transform: translate(20px, 20px);
+  animation: members 1.38s forwards;
+}
+.about-members {
+  border-radius: 22px 0;
+  width: 465px;
+}
+

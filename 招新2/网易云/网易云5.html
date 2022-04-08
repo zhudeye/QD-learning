@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      p {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
+        font-size: 15px;
+        color: whitesmoke;
+      }
+      .outer {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 1064px;
+        margin: 0 auto;
+        background-color: #bfa;
+      }
+      img {
+        display: block;
+        width: 200px;
+        margin: 5px auto 0;
+      }
+      .outer div {
+        margin: 0 5px 5px 5px;
+        width: 250px;
+        height: 250px;
+        border-radius: 25px;
+        cursor: pointer;
+        background-color: red;
+      }
+      .songs-list {
+        margin: 0 auto;
+        width: 1064px;
+        height: 100%;
+        background-color: palevioletred;
+      }
+      li {
+        text-align: center;
+        list-style: none;
+        cursor: pointer;
+      }
+      li:hover {
+        background-color: cornflowerblue;
+      }
+      .lyrics-in {
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        background-color: #bfa;
+        width: 1064px;
+        cursor: default;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="lay">
+      <button id="btn01">点击获取歌单</button>
+      <br /><br />
+    </div>
+    <script>
+      let lay = document.querySelector("#lay"); //获取整个对象
+      let btn01 = document.querySelector("#btn01"); //获取按钮
+      let li = document.getElementsByClassName("song"); //获取li数组
+      //promise封装函数
+      //(try---catch)
+      const ajax=function(method, url, data) {
+        let xhr = new XMLHttpRequest();
+        return new Promise(function (resolve, reject) {
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+              if (
+                (xhr.status >= 200 && xhr.status < 300) ||
+                xhr.status == 304
+              ) {
+                const res = JSON.parse(xhr.responseText);
+                resolve(res);
+              } else {
+                reject(xhr.status);
+              }
+            }
+          };
+          xhr.open(method, url);
+          xhr.send(data);
+        });
+      }
+      //创建函数
+      let create = function (type, className) {
+        let Element = document.createElement(type); //创建元素
+        Element.className = className; //添加classname
+        return Element; //返回对象
+      };
+      //点击创建盒子
+      let creatediv = function (father) {
+        let div = create("div", "in"); //创建div
+        father.appendChild(div); //添加div
+        div.appendChild(create("img", "img")); //创建img
+        div.appendChild(create("P", "p")); //创建p                   模板字符串
+      };
+      let num1 = 12; //num1有几个歌单
+      let num2 = 10; //num2有几首歌
+      //d点击获取歌单
+      btn01.onclick = function () {
+        let outer = create("div", "outer"); //创建outer外部div
+        lay.appendChild(outer); //添加到lay中
+
+        for (let i = 0; i < num1; i++) {
+          //循环创建内部歌单div
+          creatediv(outer);
+        }
+        let songList = document.querySelectorAll(".in"); //获取歌单div
+        let ti = document.querySelectorAll(".p"); //获取歌单div的p标签
+        let img = document.querySelectorAll(".img"); //获取歌单div的img标签
+
+        let message = ajax(
+          "get",
+          // "http://music.eleuu.com/personalized" + "?limit=" + [num1]
+          `http://music.eleuu.com/personalized?limit=${[num1]}`
+
+        ); //ajax发送
+        //接受数据显示
+        message.then(
+          (resolve) => {
+            for (var i = 0; i < songList.length; i++) {
+              songList[i].style.border = "3px solid rgb(193,193,193)";
+              songList[i].style.backgroundColor = "rgb(194,12,12)";
+              img[i].src = resolve.result[i].picUrl;
+              ti[i].innerHTML = resolve.result[i].name;
+              songList[i].name = resolve.result[i].id;
+            }
+          },
+          (reject) => {
+            alert(reject);
+          }
+        );
+
+        let songs_list = create("div", "songs-list"); //创建歌曲目录div
+        lay.appendChild(songs_list); //添加歌曲目录div
+
+        let songs = create("ul", "songs"); //创建歌曲ul
+        songs_list.appendChild(songs); //添加歌曲ul
+
+        let lyrics = create("div", "lyrics"); //创建歌曲显示区域div
+        lay.appendChild(lyrics); //添加歌曲显示区域div
+
+        lyrics.appendChild(create("span", "lyrics-in")); //将歌曲span添加到歌曲显示区域
+
+        for (let i = 0; i < songList.length; i++) {
+          //循环获取每首歌曲
+          getSong(songList[i], li, num2, songs);
+        }
+      };
+      //得到歌曲函数：obj对象点击 \ text歌词存放的li数组 \ num2歌曲数量 \ father歌词li添加到的父元素
+      let getSong = function (obj, text, num2, father) {
+        father.appendChild(create("li", "song")); //创建并添加歌曲目录的li标签
+
+        obj.onclick = function () {
+          let url = "http://music.eleuu.com/playlist/detail?id=" + [obj.name]; //获取每歌曲的id
+          let message = ajax("get", url);
+          message.then(
+            (resolve) => {
+              for (let i = 0; i < num2; i++) {
+                text[i].innerHTML = resolve.playlist.tracks[i].name;
+                text[i].name = resolve.playlist.tracks[i].id;
+              }
+            },
+            (reject) => {
+              alert(reject);
+            }
+          );
+        };
+        for (let i = 1; i < li.length; i++) {
+          //循环为每首歌曲添加获取歌词
+          let lyrics_in = document.querySelector(".lyrics-in"); //获取歌词添加的父元素
+          getLyrics(li[i], lyrics_in);
+        }
+      };
+      //promise,封装歌词
+      let re = /\[[0-9]*[:punct:]([0-9]*).[0-9]*]/g; //正则表达式代替时间
+      let getLyrics = function (obj, father) {
+        obj.onclick = function () {
+          let url = "http://music.eleuu.com/lyric?id=" + [obj.name];
+          let message = ajax("get", url);
+          message.then(
+            (resolve) => {
+              father.innerHTML = resolve.lrc.lyric.replace(re, "<br>"); //替换时间
+            },
+            (reject) => {
+              alert(reject);
+            }
+          );
+        };
+      };
+    </script>
+  </body>
+</html>

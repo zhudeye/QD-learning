@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      p {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
+        font-size: 15px;
+        color: whitesmoke;
+      }
+      .outer {
+        /* display: flex; */
+        width: 1064px;
+        height: 783px;
+        margin: 0 auto;
+        /* background-color: #bfa; */
+        /* flex-direction: column; */
+        /* justify-content: space-between; */
+      }
+      /* #in01{
+          border: 3px solid red;
+      } */
+      img {
+        display: block;
+        width: 200px;
+        margin: 5px auto 0;
+        
+      }
+      .outer div {
+        float: left;
+        margin: 0 5px 5px 5px;
+        width: 250px;
+        height: 250px;
+        border-radius: 25px;
+        cursor: pointer;
+        /* background-color: rgb(194,12,12); */
+      }
+      .songs {
+        margin: 0 auto;
+        width: 1064px;
+        height: 100%;
+        background-color: palevioletred;
+        /* opacity: 0.5; */
+      }
+      li {
+        /* text-align: center; */
+        list-style: none;
+      }
+      li:hover{
+        background-color: cornflowerblue;
+      }
+      .lyrics-in {
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        background-color: #bfa;
+        /* opacity: 0.5; */
+        width: 1064px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="lay">
+      <button id="btn01">点击获取歌单</button>
+      <br /><br />
+
+      <div class="outer">
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+      </div>
+      <div class="songs">
+        <ul>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+        </ul>
+      </div>
+      <div class="lyrics">
+        <span class="lyrics-in"> </span>
+      </div>
+    </div>
+    <script>
+      var lay = document.querySelector("#lay");
+      var btn01 = document.querySelector("#btn01");
+
+      //获取歌单
+      var songList = document.querySelectorAll(".in");
+
+      //获取p标签
+      var ti = document.querySelectorAll(".p");
+
+      //获取图片
+      var img = document.querySelectorAll(".img");
+
+      //列表
+      var li = document.getElementsByClassName("song");
+
+      //歌词
+      var gc = document.querySelector(".lyrics-in");
+
+      //点击出图片
+      btn01.onclick = function () {
+        const xhr = new XMLHttpRequest();
+        xhr.open("get", "http://music.eleuu.com/personalized?limit=10", true);
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === 4) {
+            if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+              const res = JSON.parse(xhr.responseText);
+              //循环数组
+              for (var i = 0; i < songList.length; i++) {
+                songList[i].style.border = "3px solid rgb(193,193,193)";
+                songList[i].style.backgroundColor="rgb(194,12,12)";
+                img[i].src = res.result[i].picUrl;
+                ti[i].innerHTML = res.result[i].name;
+                songList[i].name = res.result[i].id;
+              }
+            } else {
+              console.log("失败");
+            }
+          }
+        };
+        xhr.send();
+      };
+      
+      //获取歌曲
+      var getSong = function (gq) {
+        var url = "http://music.eleuu.com/playlist/detail?id=" + [gq.name];
+        return url;
+      };
+
+      //点击获取歌曲函数
+      var click = function (obj, text) {
+        obj.onclick = function () {
+          var url = getSong(obj);
+          const xhr = new XMLHttpRequest();
+          xhr.open("get", url, true);
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+              if (
+                (xhr.status >= 200 && xhr.status < 300) ||
+                xhr.status == 304
+              ) {
+                const res = JSON.parse(xhr.responseText);
+                for (var i = 0; i < 10; i++) {
+                  text[i].innerHTML = res.playlist.tracks[i].name;
+                  text[i].name = res.playlist.tracks[i].id;
+                }
+              } else {
+                console.log("失败");
+              }
+            }
+          };
+          xhr.send();
+        };
+      };
+      
+      for (var i = 0; i < songList.length; i++) {
+        click(songList[i], li);
+      }
+
+      //获取歌曲id
+      var getLyricsId = function (gc) {
+        var url = "http://music.eleuu.com/lyric?id=" + [gc.name];
+        return url;
+      };
+
+      //正则表达式替换
+      var re = /\[[0-9]{2}[:punct:]([0-9]{2}).[0-9]{3}]/g;
+      var re1 = / \[[0-9]{2}[:punct:]([0-9]{2}).[0-9]{2}] /g;
+
+      //获取歌词
+      var getLyrics = function (obj) {
+        obj.onclick = function () {
+          var url = getLyricsId(obj);
+          const xhr = new XMLHttpRequest();
+          xhr.open("get", url, true);
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+              if (
+                (xhr.status >= 200 && xhr.status < 300) ||
+                xhr.status == 304
+              ) {
+                const res = JSON.parse(xhr.responseText);
+                // console.log(res);
+                var str = res.lrc.lyric;
+                var out = str.replace(re, "<br>");
+                var out1 = out.replace(re1, "<br>");
+                gc.innerHTML = out1;
+              } else {
+                console.log("失败");
+              }
+            }
+          };
+          xhr.send();
+        };
+      };
+      for (var i = 1; i < li.length; i++) {
+        getLyrics(li[i]);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      p {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
+        font-size: 15px;
+        color: whitesmoke;
+      }
+      .outer {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 1064px;
+        margin: 0 auto;
+        background-color: #bfa;
+      }
+      img {
+        display: block;
+        width: 200px;
+        margin: 5px auto 0;
+        
+      }
+      .outer div {
+        margin: 0 5px 5px 5px;
+        width: 250px;
+        height: 250px;
+        border-radius: 25px;
+        cursor: pointer;
+        background-color: red;
+      }
+      .songs-list {
+        margin: 0 auto;
+        width: 1064px;
+        height: 100%;
+        background-color: palevioletred;
+      }
+      li {
+          text-align: center;
+        list-style: none;
+      }
+      li:hover{
+        background-color: cornflowerblue;
+      }
+      .lyrics-in {
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        background-color: #bfa;
+        width: 1064px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="lay">
+      <button id="btn01">点击获取歌单</button>
+      <br /><br />
+    </div>
+    <script>
+      var lay = document.querySelector("#lay");
+      var btn01 = document.querySelector("#btn01");
+      //列表
+      let li = document.getElementsByClassName("song");
+      //promise封装函数
+      function ajax(method,url,data){
+        var xhr = new XMLHttpRequest();
+        return new Promise(function(resolve,reject){
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+              if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                const res = JSON.parse(xhr.responseText);
+                resolve(res);
+              } else {
+                reject(xhr.status);
+              }
+            }
+          };
+          xhr.open(method,url);
+          xhr.send(data);
+        });
+      }
+
+      //点击创建盒子
+    let creatediv=function(father){
+        let div=document.createElement("div");
+        div.className="in";
+       father.appendChild(div);
+
+        let img=document.createElement("img");
+        img.className="img";
+        div.appendChild(img);
+
+        let p=document.createElement("p");
+        p.className="p";
+        div.appendChild(p);
+    }
+
+    let num1=10;
+          //num2有几首歌
+    let num2=10;
+    //d点击获取歌单
+    btn01.onclick=function(){
+        let outer=document.createElement("div");
+        outer.className="outer";
+        lay.appendChild(outer);
+
+        for(let i=0;i<num1;i++){
+            creatediv(outer);
+        }
+        let songList = document.querySelectorAll(".in");
+        let ti = document.querySelectorAll(".p");
+        let img = document.querySelectorAll(".img");
+        
+        let message=ajax('get',"http://music.eleuu.com/personalized"+"?limit="+[num1]);
+        message.then((resolve)=>{
+          for (var i = 0; i < songList.length; i++) {
+                songList[i].style.border = "3px solid rgb(193,193,193)";
+                songList[i].style.backgroundColor="rgb(194,12,12)";
+                img[i].src = resolve.result[i].picUrl;
+                ti[i].innerHTML = resolve.result[i].name;
+                songList[i].name = resolve.result[i].id;
+              }
+        },(reject)=>{
+          alert(reject);
+        })
+        //创建songs-list
+        let songs_list=document.createElement("div");
+        songs_list.className="songs-list";
+        lay.appendChild(songs_list);
+
+        let songs=document.createElement("ul");
+        songs.className="songs";
+        songs_list.appendChild(songs);
+
+        let lyrics=document.createElement("div");
+        lyrics.className="lyrics";
+        lay.appendChild(lyrics);
+
+        let lyrics_in=document.createElement("sapn");
+        lyrics_in.className="lyrics-in";
+        lyrics.appendChild(lyrics_in);
+
+        for (let i = 0; i < songList.length; i++) {
+            getSong(songList[i], li,num2,songs);
+      }
+    }
+          
+      //创建li
+    var getSong = function (obj, text,num2,father) {
+        //obj对象点击     text歌词存放的li数组      num2歌曲数量      father歌词li添加到的父元素
+        let li1=document.createElement("li");
+        li1.className="song";
+        father.appendChild(li1);
+
+        obj.onclick = function () {
+          let url = "http://music.eleuu.com/playlist/detail?id=" + [obj.name];
+          let message=ajax('get',url);
+          message.then((resolve)=>{
+            for (var i = 0; i <num2; i++) {
+                  text[i].innerHTML = resolve.playlist.tracks[i].name;
+                  text[i].name = resolve.playlist.tracks[i].id;
+                }
+          },(reject)=>{
+            alert(reject);
+          })
+      }
+      for (var i = 1; i < li.length; i++) {
+        let lyrics_in=document.querySelector(".lyrics-in");
+        getLyrics(li[i],lyrics_in);
+      }
+    };
+
+      //promise,封装歌词
+      var getLyrics = function (obj,father) {
+        obj.onclick = function () {
+          let url = "http://music.eleuu.com/lyric?id=" + [obj.name];
+           let message= ajax('get',url);
+           message.then((resolve)=>{
+                father.innerHTML = resolve.lrc.lyric.replace(/\[[0-9]*[:punct:]([0-9]*).[0-9]*]/g, "<br>");
+           },(reject)=>{
+            alert(reject);
+           })
+          }
+      };
+
+    </script>
+  </body>
+</html>

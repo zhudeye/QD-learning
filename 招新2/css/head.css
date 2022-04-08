@@ -1,0 +1,242 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  width: 100%;
+  min-width: 1519px;
+  height: 100%;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+}
+span,pre,div{
+  cursor: default;
+}
+.head {
+  width: 100%;
+  height: 100%;
+  /* min-width: 1519px; */
+  min-height: 755px;
+  display: block;
+  /* overflow-Y: hidden; */
+  margin-bottom: 100px;
+}
+.head-video {
+  width: 100%;
+  height: 100%;
+  min-height: 755px;
+  min-width: 1519px;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  overflow-y: hidden;
+}
+a {
+  text-decoration: none;
+  outline: none;
+}
+.head-top {
+  width: auto;
+  height: 10%;
+  line-height: 10%;
+  font-size: 14px;
+  padding: 10px 30px;
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  /* background-color: pink; */
+  /* position: relative; */
+}
+.top-left-logo {
+  width: 170px;
+}
+.head-top-right {
+  display: flex;
+  align-items: center;
+  line-height: 10%;
+}
+.head-top a {
+  /* width: 100%; */
+  height: 100%;
+  font-size: 17px;
+  color: #fff;
+  margin-right: 15px;
+  text-decoration: none;
+}
+.head-top a:hover {
+  color: hsla(0, 0%, 100%, 0.6);
+  transition: all 0.6s;
+}
+.head-content {
+  display: flex;
+  width: 100%;
+  height: 90%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  /* text-align: center; */
+  /* background-color: blueviolet; */
+  /* position: relative; */
+}
+.content {
+  width: 700px;
+  /* height: auto; */
+  text-align: center;
+  /* background-color: black; */
+  margin-bottom: 100px;
+  user-select: none;
+  /* position: absolute; */
+  /* top: 50%; */
+  /* transform: translateY(-50%); */
+  /* z-index: 1; */
+}
+.content div:first-child {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 600;
+}
+.content div:nth-child(2) {
+  color: #fff;
+  font-size: 50px;
+  font-weight: 600;
+}
+.content-English {
+  width: 80%;
+  letter-spacing: 23px;
+  text-indent: 23px;
+  font-size: 14px;
+  color: #fff;
+  line-height: 17px;
+  opacity: 0.8;
+  margin: 14px auto 0;
+  position: relative;
+}
+.content-English::before,
+.content-English::after {
+  content: "";
+  display: block;
+  width: 74px;
+  height: 2px;
+  position: absolute;
+  top: calc(50% - 1px);
+  background-image: linear-gradient(
+    270deg,
+    hsla(0, 0%, 100%, 0),
+    #fff 47%,
+    hsla(0, 0%, 100%, 0)
+  );
+}
+.content-English::after {
+  right: 0;
+}
+.content-Button {
+  height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 50px;
+  padding: 6.4px 15px;
+  opacity: 1;
+  border-radius: 20px !important;
+  border-radius: 2px;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
+  border: 1px solid #d9d9d9;
+}
+.content-Button:hover {
+  font-weight: 520;
+  border-color: #40a9ff;
+  color: #40a9ff;
+  transition: all 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+  cursor: pointer;
+}
+.icon {
+  width: 40px;
+  height: 40px;
+  color: #fff !important;
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+  border: 1px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+.icon::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 18px;
+  width: 20px;
+  height: 20px;
+  border-left: 2.5px solid #fff;
+  animation: icon-move1 0.85s linear alternate infinite;
+}
+.icon::after {
+  content: "";
+  position: absolute;
+  top: 17px;
+  left: 13px;
+  width: 10px;
+  height: 10px;
+  border-right: 2.5px solid #fff;
+  border-bottom: 2.5px solid #fff;
+  transform: rotate(45deg);
+  animation: icon-move2 0.85s linear alternate infinite;
+}
+.icon a{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+}
+@keyframes icon-move1 {
+  0% {
+    top: 5px;
+  }
+  100% {
+    top: 13px;
+  }
+}
+@keyframes icon-move2 {
+  0% {
+    top: 12px;
+  }
+  100% {
+    top: 20px;
+  }
+}
+.xuxian {
+  box-sizing: border-box;
+  margin: 0;
+  color: #1f2329;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0.2vw;
+  padding: 0 0 0 2px;
+}
+.xuxian::after {
+  content: "";
+  display: block;
+  position: relative;
+  height: 36px;
+  left: 50%;
+  transform: translateX(-150%);
+  border-left: 1px dashed #fff;
+  top: 14px;
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      p {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
+        font-size: 15px;
+        color: whitesmoke;
+      }
+      .outer {
+        width: 1064px;
+        height: 783px;
+        margin: 0 auto;
+      }
+      img {
+        display: block;
+        width: 200px;
+        margin: 5px auto 0;
+        
+      }
+      .outer div {
+        float: left;
+        margin: 0 5px 5px 5px;
+        width: 250px;
+        height: 250px;
+        border-radius: 25px;
+        cursor: pointer;
+      }
+      .songs {
+        margin: 0 auto;
+        width: 1064px;
+        height: 100%;
+        background-color: palevioletred;
+      }
+      li {
+        list-style: none;
+      }
+      li:hover{
+        background-color: cornflowerblue;
+      }
+      .lyrics-in {
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        background-color: #bfa;
+        width: 1064px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="lay">
+      <button id="btn01">点击获取歌单</button>
+      <br /><br />
+
+      <div class="outer">
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+        <div class="in">
+          <img src="" alt="" class="img" />
+          <p class="p"></p>
+        </div>
+      </div>
+      <div class="songs">
+        <ul>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+        </ul>
+      </div>
+      <div class="lyrics">
+        <span class="lyrics-in"> </span>
+      </div>
+    </div>
+    <script>
+      var lay = document.querySelector("#lay");
+      var btn01 = document.querySelector("#btn01");
+
+      //获取歌单
+      var songList = document.querySelectorAll(".in");
+
+      //获取p标签
+      var ti = document.querySelectorAll(".p");
+
+      //获取图片
+      var img = document.querySelectorAll(".img");
+
+      //列表
+      var li = document.getElementsByClassName("song");
+
+      //歌词
+      var gc = document.querySelector(".lyrics-in");
+   
+      //promise封装函数
+      function ajax(method,url,data){
+        var xhr = new XMLHttpRequest();
+        return new Promise(function(resolve,reject){
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+              if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                const res = JSON.parse(xhr.responseText);
+                resolve(res);
+              } else {
+                reject(xhr.status);
+              }
+            }
+          };
+          xhr.open(method,url);
+          xhr.send(data);
+        });
+      }
+      
+      //promise,封装获取图片
+      btn01.onclick=function(){
+        let message=ajax('get',"http://music.eleuu.com/personalized?limit=10");
+        message.then((resolve)=>{
+          for (var i = 0; i < songList.length; i++) {
+                songList[i].style.border = "3px solid rgb(193,193,193)";
+                songList[i].style.backgroundColor="rgb(194,12,12)";
+                img[i].src = resolve.result[i].picUrl;
+                ti[i].innerHTML = resolve.result[i].name;
+                songList[i].name = resolve.result[i].id;
+              }
+        },(reject)=>{
+          alert(reject);
+        })
+      };
+
+      //promise，封装获取歌曲
+      var click = function (obj, text) {
+        obj.onclick = function () {
+          let url = "http://music.eleuu.com/playlist/detail?id=" + [obj.name];
+          let message=ajax('get',url);
+          message.then((resolve)=>{
+            for (var i = 0; i < 10; i++) {
+                  text[i].innerHTML = resolve.playlist.tracks[i].name;
+                  text[i].name = resolve.playlist.tracks[i].id;
+                }
+          },(reject)=>{
+            alert(reject);
+          })
+      }};
+
+      for (var i = 0; i < songList.length; i++) {
+        click(songList[i], li);
+      }
+
+      //promise,封装歌词
+      var getLyrics = function (obj) {
+        obj.onclick = function () {
+          let url = "http://music.eleuu.com/lyric?id=" + [obj.name];
+           let message= ajax('get',url);
+           message.then((resolve)=>{
+                gc.innerHTML = resolve.lrc.lyric.replace(/\[[0-9]*[:punct:]([0-9]*).[0-9]*]/g, "<br>");
+           },(reject)=>{
+            alert(reject);
+           })
+          }
+      };
+
+      for (var i = 1; i < li.length; i++) {
+        getLyrics(li[i]);
+      }
+    </script>
+  </body>
+</html>

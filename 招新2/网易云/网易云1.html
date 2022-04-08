@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      p {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
+        font-size: 15px;
+      }
+      .outer {
+        /* display: flex; */
+        width: 1064px;
+        height: 783px;
+        margin: 0 auto;
+        background-color: #bfa;
+        /* flex-direction: column; */
+        /* justify-content: space-between; */
+      }
+      /* #in01{
+          border: 3px solid red;
+      } */
+      img {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
+      }
+      .outer div {
+        float: left;
+        margin: 0 5px 5px 5px;
+        width: 250px;
+        height: 250px;
+      }
+      .songs {
+        margin: 0 auto;
+        width: 1064px;
+        height: 100%;
+        background-color: pink;
+      }
+      li {
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="lay">
+      <button id="btn01">点击获取歌单</button>
+      <br /><br />
+
+      <div class="outer">
+        <div id="in01" class="in">
+          <img src="" alt="" class="img01" />
+          <p id="p01" class="p"></p>
+        </div>
+        <div id="in02" class="in">
+          <img src="" alt="" class="img02" />
+          <p id="p02" class="p"></p>
+        </div>
+        <div id="in03" class="in">
+          <img src="" alt="" class="img03" />
+          <p id="p03" class="p"></p>
+        </div>
+        <div id="in04" class="in">
+          <img src="" alt="" class="img04" />
+          <p id="p04" class="p"></p>
+        </div>
+        <div id="in05" class="in">
+          <img src="" alt="" class="img05" />
+          <p id="p05" class="p"></p>
+        </div>
+        <div id="in06" class="in">
+          <img src="" alt="" class="img06" />
+          <p id="p06" class="p"></p>
+        </div>
+        <div id="in07" class="in">
+          <img src="" alt="" class="img07" />
+          <p id="p07" class="p"></p>
+        </div>
+        <div id="in08" class="in">
+          <img src="" alt="" class="img08" />
+          <p id="p08" class="p"></p>
+        </div>
+        <div id="in09" class="in">
+          <img src="" alt="" class="img09" />
+          <p id="p09" class="p"></p>
+        </div>
+        <div id="in10" class="in">
+          <img src="" alt="" class="img10" />
+          <p id="p10" class="p"></p>
+        </div>
+      </div>
+      <div class="songs">
+        <ul>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+          <li class="song"></li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      //z封装一下
+      // function Getdx(dx,id){
+      //   var dx=document.querySelector(["id"]);
+      // }
+      var lay = document.querySelector("#lay");
+      var btn01 = document.querySelector("#btn01");
+      //歌单
+      var in01 = document.querySelector("#in01");
+      var img01 = document.querySelector(".img01");
+      var p01 = document.querySelector("#p01");
+
+      var in02 = document.querySelector("#in02");
+      var img02 = document.querySelector(".img02");
+      var p02 = document.querySelector("#p02");
+
+      var in03 = document.querySelector("#in03");
+      var img03 = document.querySelector(".img03");
+      var p03 = document.querySelector("#p03");
+
+      var in04 = document.querySelector("#in04");
+      var img04 = document.querySelector(".img04");
+      var p04 = document.querySelector("#p04");
+
+      var in05 = document.querySelector("#in05");
+      var img05 = document.querySelector(".img05");
+      var p05 = document.querySelector("#p05");
+
+      var in06 = document.querySelector("#in06");
+      var img06 = document.querySelector(".img06");
+      var p06 = document.querySelector("#p06");
+
+      var in07 = document.querySelector("#in07");
+      var img07 = document.querySelector(".img07");
+      var p07 = document.querySelector("#p07");
+
+      var in08 = document.querySelector("#in08");
+      var img08 = document.querySelector(".img08");
+      var p08 = document.querySelector("#p08");
+
+      var in09 = document.querySelector("#in09");
+      var img09 = document.querySelector(".img09");
+      var p09 = document.querySelector("#p09");
+
+      var in10 = document.querySelector("#in10");
+      var img10 = document.querySelector(".img10");
+      var p10 = document.querySelector("#p10");
+
+
+        //获取歌单
+        var songList = document.querySelectorAll(".in");
+        // console.log(songList);
+
+        //获取p标签
+        var ti=document.querySelectorAll(".p");
+        console.log(ti);
+
+      //列表
+      var li = document.getElementsByClassName("song");
+
+      //点击出图片
+      // btn01.onclick = function () {
+      //   const xhr = new XMLHttpRequest();
+      //   xhr.open("get", "http://music.eleuu.com/personalized?limit=10", true);
+      //   xhr.onreadystatechange = () => {
+      //     if (xhr.readyState === 4) {
+      //       if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+      //         const res = JSON.parse(xhr.responseText);
+      //         console.log(res);
+      //         //   console.log("qqcg");
+
+      //         //循环数组
+      //         for(var i=0;i<songList.length;i++){
+      //           songList[i].style.border = "3px solid red";
+                
+      //         }
+     function ajax(method, url, data) {
+           var request = new XMLHttpRequest();
+          return new Promise(function (resolve, reject) {
+          request.onreadystatechange = function () {
+          if (request.readyState === 4) {
+            if (request.status === 200) {
+                    resolve(request.responseText);
+                } else {
+                    reject(request.status);
+                }
+            }
+        };
+        request.open(method, url);
+        request.send(data);
+    })};
+    btn01.onclick=function(){
+
+      var p1=ajax('get',"http://music.eleuu.com/personalized?limit=10");
+      p.then(function (text) {
+      console.log(text);
+  }).catch(function (status) {
+      console.log(status);
+  });
+    }
+            //   in01.style.border = "3px solid red";
+            //   img01.src = res.result[0].picUrl;
+            //   p01.innerHTML = res.result[0].name;
+            //   in01.name = res.result[0].id;
+
+            //   in02.style.border = "3px solid red";
+            //   img02.src = res.result[1].picUrl;
+            //   p02.innerHTML = res.result[1].name;
+
+            //   in03.style.border = "3px solid red";
+            //   img03.src = res.result[2].picUrl;
+            //   p03.innerHTML = res.result[2].name;
+
+            //   in04.style.border = "3px solid red";
+            //   img04.src = res.result[3].picUrl;
+            //   p04.innerHTML = res.result[3].name;
+
+            //   in05.style.border = "3px solid red";
+            //   img05.src = res.result[4].picUrl;
+            //   p05.innerHTML = res.result[4].name;
+
+            //   in06.style.border = "3px solid red";
+            //   img06.src = res.result[5].picUrl;
+            //   p06.innerHTML = res.result[5].name;
+
+            //   in07.style.border = "3px solid red";
+            //   img07.src = res.result[6].picUrl;
+            //   p07.innerHTML = res.result[6].name;
+
+            //   in08.style.border = "3px solid red";
+            //   img08.src = res.result[7].picUrl;
+            //   p08.innerHTML = res.result[7].name;
+
+            //   in09.style.border = "3px solid red";
+            //   img09.src = res.result[8].picUrl;
+            //   p09.innerHTML = res.result[8].name;
+
+            //   in10.style.border = "3px solid red";
+            //   img10.src = res.result[9].picUrl;
+            //   p10.innerHTML = res.result[9].name;
+      //       } else {
+      //         console.log("失败");
+      //       }
+      //     }
+      //   };
+      //   xhr.send();
+      // };
+
+      //获取歌曲
+      var getSong = function (gq) {
+        var url = "http://music.eleuu.com/playlist/detail?id=" + [gq.name];
+        return url;
+      };
+
+      //点击函数
+      var click = function (obj,text) {
+        obj.onclick = function () {
+          const xhr = new XMLHttpRequest();
+          var url = getSong(obj);
+          xhr.open("get", url, true);
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+              if (
+                (xhr.status >= 200 && xhr.status < 300) ||
+                xhr.status == 304
+              ) {
+                const res = JSON.parse(xhr.responseText);
+                // text[num-1].innerHTML = res.playlist.tracks[num-1].name;
+                for(var i=0;i<10;i++){
+                    text[i].innerHTML = res.playlist.tracks[i].name;
+                    text[i].name = res.playlist.tracks[i].id;
+                    console.log(text[i].name);
+                }
+              } else {
+                console.log("失败");
+              }
+            }
+          };
+          xhr.send();
+        };
+      };
+    //   click(in02,li);
+
+    //   in01.onclick = function () {
+    //     const xhr = new XMLHttpRequest();
+    //     // var url="http://music.eleuu.com/playlist/detail?id="+[in01.name];
+    //     var url = getSong(in01);
+    //     console.log(url);
+    //     xhr.open("get", url, true);
+    //     xhr.onreadystatechange = () => {
+    //       if (xhr.readyState === 4) {
+    //         if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+    //           const res = JSON.parse(xhr.responseText);
+    //           console.log(res.playlist.tracks[0].id);
+    //           console.log("成功");
+    //           li[0].innerHTML = res.playlist.tracks[0].name;
+    //         } else {
+    //           console.log("失败");
+    //         }
+    //       }
+    //     };
+    //     xhr.send();
+    //   };
+    </script>
+  </body>
+</html>
